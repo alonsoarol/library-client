@@ -1,0 +1,18 @@
+.pageBanner {
+    text-align: left;
+    grid-area: header;
+    font-weight: bold;
+    background-color: #F1F3F7;
+    border-bottom: 1px solid #cacbcc;
+    text-transform: capitalize;
+    display: flex;
+    gap: 17px;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.division-pagebanner {
+    width: 1px;
+    height: 40px;
+    background-color: #cacbcc;
+}

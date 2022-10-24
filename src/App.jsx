@@ -1,14 +1,15 @@
-import "./styles/App.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Home } from "./page/Home";
 import { Customers } from "./page/Customers";
 import { Providers } from "./page/Providers";
 import { Sales } from "./page/Sales";
 import { Inventory } from "./page/Inventory";
+import { Nav } from "./components/Nav";
 
 function App() {
   return (
     <div className="App">
+      <Nav />
       <Routes>
         <Route path="/" index element={<Home />} />
         <Route path="/customers" element={<Customers />} />
