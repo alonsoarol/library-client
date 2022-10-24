@@ -1,0 +1,30 @@
+.nav {
+    background-color: #33373E;
+    grid-area: nav;
+}
+
+.nav>ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content: center;
+}
+
+.nav>ul>li {
+    width: 100%;
+    padding: 15%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.nav>ul>li:hover {
+    background-color: #4a4d53;
+    cursor: pointer;
+}
+
+.nav>ul>li>* {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
