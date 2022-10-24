@@ -5,10 +5,12 @@ import { Providers } from "./page/Providers";
 import { Sales } from "./page/Sales";
 import { Inventory } from "./page/Inventory";
 import { Nav } from "./components/Nav";
+import { Logo } from "./components/Logo";
 
 function App() {
   return (
     <div className="App">
+      <Logo />
       <Nav />
       <Routes>
         <Route path="/" index element={<Home />} />

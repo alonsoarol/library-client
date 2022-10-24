@@ -1,0 +1,14 @@
+.logo-container {
+    grid-area: logo;
+    background-color: #33373E;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+
+}
+
+.logo-img {
+    transform: scale(40%);
+}
