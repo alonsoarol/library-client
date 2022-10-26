@@ -6,20 +6,25 @@ import { Sales } from "./page/Sales";
 import { Inventory } from "./page/Inventory";
 import { Nav } from "./components/Nav";
 import { Logo } from "./components/Logo";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
-      <Logo />
-      <Nav />
-      <Routes>
-        <Route path="/" index element={<Home />} />
-        <Route path="/customers" element={<Customers />} />
-        <Route path="/providers" element={<Providers />} />
-        <Route path="/sales" element={<Sales />} />
-        <Route path="/inventory" element={<Inventory />} />
-        <Route path="/*" element={<h1>404 Not Found</h1>} />
-      </Routes>
+      <QueryClientProvider client={queryClient}>
+        <Logo />
+        <Nav />
+        <Routes>
+          <Route path="/" index element={<Home />} />
+          <Route path="/customers" element={<Customers />} />
+          <Route path="/providers" element={<Providers />} />
+          <Route path="/sales" element={<Sales />} />
+          <Route path="/inventory" element={<Inventory />} />
+          <Route path="/*" element={<h1>404 Not Found</h1>} />
+        </Routes>
+      </QueryClientProvider>
     </div>
   );
 }
