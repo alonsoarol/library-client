@@ -43,90 +43,92 @@ export const InventoryTable = () => {
       <div className="inventory-table-wrapper">
         <table className="inventory-table">
           <thead>
-            <InventoryTh
-              title="code"
-              onClick={() => {
-                setUri("code");
-                setAsc(!asc);
-              }}
-              isAsc={asc ? true : false}
-              isTarget={uri === "code"}
-            />
-            <InventoryTh
-              title="title"
-              onClick={() => {
-                setUri("title");
-                setAsc(!asc);
-              }}
-              isAsc={asc ? true : false}
-              isTarget={uri === "title"}
-            />
-            {checks.author && (
+            <tr>
               <InventoryTh
-                title="author"
+                title="code"
                 onClick={() => {
-                  setUri("author");
+                  setUri("code");
                   setAsc(!asc);
                 }}
                 isAsc={asc ? true : false}
-                isTarget={uri === "author"}
+                isTarget={uri === "code"}
               />
-            )}
-            {checks.category && (
               <InventoryTh
-                title="category"
+                title="title"
                 onClick={() => {
-                  setUri("category");
+                  setUri("title");
                   setAsc(!asc);
                 }}
                 isAsc={asc ? true : false}
-                isTarget={uri === "category"}
+                isTarget={uri === "title"}
               />
-            )}
-            {checks.provider && (
-              <InventoryTh
-                title="provider"
-                onClick={() => {
-                  setUri("provider");
-                  setAsc(!asc);
-                }}
-                isAsc={asc ? true : false}
-                isTarget={uri === "provider"}
-              />
-            )}
-            {checks.base_price && (
-              <InventoryTh
-                title="base price"
-                onClick={() => {
-                  setUri("base_price");
-                  setAsc(!asc);
-                }}
-                isAsc={asc ? true : false}
-                isTarget={uri === "base_price"}
-              />
-            )}
-            {checks.public_price && (
-              <InventoryTh
-                title="public price"
-                onClick={() => {
-                  setUri("public_price");
-                  setAsc(!asc);
-                }}
-                isAsc={asc ? true : false}
-                isTarget={uri === "public_price"}
-              />
-            )}
-            {checks.stock && (
-              <InventoryTh
-                title="stock"
-                onClick={() => {
-                  setUri("stock");
-                  setAsc(!asc);
-                }}
-                isAsc={asc ? true : false}
-                isTarget={uri === "stock"}
-              />
-            )}
+              {checks.author && (
+                <InventoryTh
+                  title="author"
+                  onClick={() => {
+                    setUri("author");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "author"}
+                />
+              )}
+              {checks.category && (
+                <InventoryTh
+                  title="category"
+                  onClick={() => {
+                    setUri("category");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "category"}
+                />
+              )}
+              {checks.provider && (
+                <InventoryTh
+                  title="provider"
+                  onClick={() => {
+                    setUri("provider");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "provider"}
+                />
+              )}
+              {checks.base_price && (
+                <InventoryTh
+                  title="base price"
+                  onClick={() => {
+                    setUri("base_price");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "base_price"}
+                />
+              )}
+              {checks.public_price && (
+                <InventoryTh
+                  title="public price"
+                  onClick={() => {
+                    setUri("public_price");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "public_price"}
+                />
+              )}
+              {checks.stock && (
+                <InventoryTh
+                  title="stock"
+                  onClick={() => {
+                    setUri("stock");
+                    setAsc(!asc);
+                  }}
+                  isAsc={asc ? true : false}
+                  isTarget={uri === "stock"}
+                />
+              )}
+            </tr>
           </thead>
           <tbody>
             {isLoading
