@@ -1,6 +1,9 @@
 @import url('./nav.css');
 @import url('./pageBanner.css');
 @import url('./logo.css');
+@import url('./inventoryPage.css');
+@import url('./userColumn.css');
+
 
 
 * {

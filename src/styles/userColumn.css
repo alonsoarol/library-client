@@ -1,0 +1,16 @@
+ .userColumn {
+     background-color: #E3E7ED;
+     grid-area: usercol;
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: center;
+     text-align: center;
+     gap: 20px;
+ }
+
+ .userColumn span {
+     color: #1976D2;
+     font-weight: bold;
+
+ }
