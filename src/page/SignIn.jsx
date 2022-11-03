@@ -1,10 +1,10 @@
 import { PageBanner } from "../components/PageBanner";
-import { VscHome } from "react-icons/vsc";
+import { FiLogIn } from "react-icons/fi";
 
-export const Home = () => {
+export const SignIn = () => {
   return (
     <>
-      <PageBanner title="Home" icon={<VscHome />} />
+      <PageBanner title="Sign In" icon={<FiLogIn />} />
 
       <div className="appBody"></div>
     </>

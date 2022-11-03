@@ -25,16 +25,13 @@ export const Inventory = () => {
         <div>
           <Fab
             size="small"
-            color="warning"
-            aria-label="add"
-            css={css`
-              background: #626b78;
-              margin: 20px;
-              :hover {
-                background: #33373e;
-              }
-            `}
             onClick={() => setStateModal(!stateModal)}
+            sx={{
+              margin: "20px",
+              backgroundColor: "black",
+              color: "white",
+              "&:hover": { backgroundColor: "#33373e" },
+            }}
           >
             <AddIcon />
           </Fab>

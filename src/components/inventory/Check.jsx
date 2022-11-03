@@ -1,4 +1,3 @@
-import { deepOrange } from "@mui/material/colors";
 import Checkbox from "@mui/material/Checkbox";
 
 export const Check = ({ title, labelFor, checked, func }) => {
@@ -9,9 +8,9 @@ export const Check = ({ title, labelFor, checked, func }) => {
       <Checkbox
         size="small"
         sx={{
-          color: deepOrange[800],
+          color: "black",
           "&.Mui-checked": {
-            color: deepOrange[600],
+            color: "black",
           },
         }}
         onClick={func}

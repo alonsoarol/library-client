@@ -1,14 +1,44 @@
 .pageBanner {
     text-align: left;
     grid-area: header;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    
+}
+.banner-firstFrame {
     font-weight: bold;
-    background-color: #F1F3F7;
-    border-bottom: 1px solid #cacbcc;
+    background-color: black;
     text-transform: capitalize;
     display: flex;
-    gap: 17px;
+    gap: 20px;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 40px;
+    color: white;
+}
+
+.banner-lastFrame {
+    font-weight: bold;
+    background-color: black;
+    text-transform: capitalize;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: end;
+    padding-right: 40px;
+    color: white;
+}
+
+.banner-lastFrame img {
+    
+     width: 50px;
+     cursor: pointer;
+}
+
+.pageBanner svg {
+    height: 22px;
+    width: 22px;
+    color: yellow;
 }
 
 .division-pagebanner {

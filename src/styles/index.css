@@ -2,7 +2,9 @@
 @import url('./pageBanner.css');
 @import url('./logo.css');
 @import url('./inventoryPage.css');
-@import url('./userColumn.css');
+@import url('./CustomButton.css');
+@import url('./CustomInput.css');
+@import url('./CustomSelect.css');
 
 
 
@@ -11,7 +13,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
 }
 
 body {
@@ -29,24 +30,13 @@ body {
   display: grid;
   grid-template-columns: 10% 75% 15%;
   grid-template-rows: 10% 90%;
-  grid-template-areas: "logo header usercol"
-                       "nav appbody usercol"
+  grid-template-areas: "logo header header"
+                       "nav appbody appbody"
 }
 
 .appBody {
   grid-area: appbody;
   max-height: 100vh;
-  background-color: #F1F3F7;
+  background: linear-gradient(to right, #33373E, #F1F3F7);
 }
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+
