@@ -1,5 +1,5 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { Home } from "./page/Home";
+import { SignIn } from "./page/SignIn";
 import { Customers } from "./page/Customers";
 import { Providers } from "./page/Providers";
 import { Sales } from "./page/Sales";
@@ -17,7 +17,7 @@ function App() {
         <Logo />
         <Nav />
         <Routes>
-          <Route path="/" index element={<Home />} />
+          <Route path="/" index element={<SignIn />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/providers" element={<Providers />} />
           <Route path="/sales" element={<Sales />} />

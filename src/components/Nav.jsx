@@ -3,30 +3,30 @@ import { BsBook } from "react-icons/bs";
 import { BsCart3 } from "react-icons/bs";
 import { BsTruck } from "react-icons/bs";
 import { RiCustomerService2Line } from "react-icons/ri";
-import { VscHome } from "react-icons/vsc";
+import { FiLogIn } from "react-icons/fi";
 
 export const Nav = () => {
   return (
     <div className="nav">
       <ul>
         <li>
-          <VscHome />
-          <Link to="/">Home</Link>
+          <FiLogIn className="nav-icon" />
+          <Link to="/">Sign In</Link>
         </li>
         <li>
-          <RiCustomerService2Line />
+          <RiCustomerService2Line className="nav-icon" />
           <Link to="/customers">Customers</Link>
         </li>
         <li>
-          <BsTruck />
+          <BsTruck className="nav-icon" />
           <Link to="/providers">Providers</Link>
         </li>
         <li>
-          <BsCart3 />
+          <BsCart3 className="nav-icon" />
           <Link to="/sales">Sales</Link>
         </li>
         <li>
-          <BsBook />
+          <BsBook className="nav-icon" />
           <Link to="/inventory">Inventory</Link>
         </li>
       </ul>

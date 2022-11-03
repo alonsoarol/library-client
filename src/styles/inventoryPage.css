@@ -1,52 +1,43 @@
 .inventory-page {
     display: flex;
+    justify-content: center;
 }
 
 .inventory-outer-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    justify-items: center;
     align-items: center;
     align-content: center;
-    /* border: 1px solid; */
     box-shadow: 0px 0px 3px #C9CDD7;
-    margin: 20px;
-    /* border-radius: 5px; */
-    min-height: 300px;
+    border-radius: 5px;
+    /* min-height: 300px;
     min-width: 54vw;
-    max-width: 55vw;
-    background-color: white;
+    max-width: 55vw; */
+    width: 70vw;
+    background-color: #C5C5C5;
+    height: 80vh;
+    margin: auto;
 }
 
-.btn-newBookForm {
-    margin-top: 20px;
-    border: 3px solid rgba(100, 100, 100, 0.1);
-    width: 180px;
-    height: 30px;
-    border-radius: 8px;
-    color: white;
-    background-size: 300%;
-    cursor: pointer;
-    background-color: #FF4802;
-    font-size: 17px;
-}
+
 
 .inventory-table-wrapper {
     display: flex;
     justify-content: center;
     max-height: 65vh;
     min-width: 50vw;
-    max-width: 55vw;
+    max-width: 65vw;
+    width: 65vw;
     overflow-y: scroll;
     margin: 20px;
 }
 
 .inventory-table {
-    background-color: white;
+    background-color: #C5C5C5;
     text-transform: lowercase;
     border-collapse: collapse;
-    min-width: 50vw;
+    width: 100%;
 }
 
 .inventory-table th {
@@ -55,7 +46,7 @@
     height: 8vh;
     padding-left: 10px;
     text-align: left;
-    background-color: #FF4802;
+    background-color: black;
     color: white;
     position: sticky;
     top: 0;
@@ -79,13 +70,19 @@
     max-height: 55px;
     min-height: 35px;
     padding: 5px 10px;
-    border-bottom: 1px solid #F1F3F7;
+    /* color: black; */
+    /* border-bottom: 1px solid #F1F3F7; */
 }
 
 .inventory-table tr:hover {
-    background-color: #515D6F;
+    background-color: rgb(158, 158, 158);;
     color: white;
 }
+
+.inventory-table thead {
+    position: relative;
+}
+
 
 .inventory-form {
     margin: 10px;
@@ -119,16 +116,28 @@
 }
 
 ::-webkit-scrollbar {
-    height: 10px;
     width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #C9CDD7;
+    background: black ;
     /* border-radius: 1ex; */
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #8C98AB;
-    /* border-radius: 1ex; */
+    background: rgb(158, 158, 158);
+    border-radius: 1ex;
+}
+
+.btn-newBookForm {
+    margin-top: 20px;
+    border: 3px solid rgba(100, 100, 100, 0.1);
+    width: 180px;
+    height: 30px;
+    border-radius: 8px;
+    color: white;
+    background-size: 300%;
+    cursor: pointer;
+    background-color: #FF4802;
+    font-size: 17px;
 }

@@ -1,6 +1,6 @@
 .logo-container {
     grid-area: logo;
-    background-color: #33373E;
+    background-color: black;
     display: flex;
     justify-content: center;
     justify-items: center;

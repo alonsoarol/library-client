@@ -1,5 +1,5 @@
 .nav {
-    background-color: #33373E;
+    background-color: black;
     grid-area: nav;
 }
 
@@ -14,7 +14,7 @@
     width: 100%;
     padding: 15%;
     display: flex;
-    gap: 10px;
+    gap: 15px;
     align-items: center;
 }
 
@@ -28,3 +28,10 @@
     color: white;
     font-weight: bold;
 }
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
