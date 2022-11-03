@@ -1,7 +1,6 @@
 import { useLoginStore } from "../context/loginStore";
 export const PageBanner = ({ title, icon, icon2 }) => {
   const userLogued = useLoginStore((state) => state.connectedUser);
-  console.log(userLogued);
   return (
     <div className="pageBanner">
       <div className="banner-firstFrame">
@@ -12,7 +11,7 @@ export const PageBanner = ({ title, icon, icon2 }) => {
       <div className="banner-lastFrame">
         {icon2 && icon2}
         <div className="division-pagebanner"></div>
-        {!userLogued ? <img src="user.png" /> : <h4>usuario logueado</h4>}
+        {!userLogued ? <img src="user.png" /> : <h4>{userLogued.email}</h4>}
       </div>
     </div>
   );

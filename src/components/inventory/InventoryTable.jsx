@@ -2,11 +2,16 @@ import { useQuery } from "react-query";
 import { getBooks } from "../../api/queries";
 import { TableChecks } from "./TableChecks";
 import { useEffect, useState } from "react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeIcon from "@mui/icons-material/Mode";
+import HistoryIcon from "@mui/icons-material/History";
 
 import { InventoryTh } from "../inventory/InventoryTh";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import { DropMenu } from "../common/DropMenu";
 
 export const InventoryTable = () => {
   const [uri, setUri] = useState(null);
@@ -128,6 +133,7 @@ export const InventoryTable = () => {
                   isTarget={uri === "stock"}
                 />
               )}
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -143,6 +149,36 @@ export const InventoryTable = () => {
                     {checks.base_price && <td>${book.base_price}</td>}
                     {checks.public_price && <td>${book.public_price}</td>}
                     {checks.stock && <td>{book.stock}</td>}
+                    <td>
+                      {
+                        <DropMenu
+                          btnIcon={<MoreVertIcon sx={{ color: "white" }} />}
+                          menuItems={[
+                            {
+                              title: "Delete",
+                              icon: <DeleteIcon />,
+                              action: () => {
+                                console.log("item deleted");
+                              },
+                            },
+                            {
+                              title: "Edit",
+                              icon: <ModeIcon />,
+                              action: () => {
+                                console.log("item edited");
+                              },
+                            },
+                            {
+                              title: "History",
+                              icon: <HistoryIcon />,
+                              action: () => {
+                                console.log("item history");
+                              },
+                            },
+                          ]}
+                        ></DropMenu>
+                      }
+                    </td>
                   </tr>
                 ))}
           </tbody>

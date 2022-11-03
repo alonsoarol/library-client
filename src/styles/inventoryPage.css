@@ -9,13 +9,13 @@
     justify-content: flex-start;
     align-items: center;
     align-content: center;
-    box-shadow: 0px 0px 3px #C9CDD7;
+    box-shadow: 0px 0px 20px black;
     border-radius: 5px;
     /* min-height: 300px;
     min-width: 54vw;
     max-width: 55vw; */
     width: 70vw;
-    background-color: #C5C5C5;
+    /* background-color: #C5C5C5; */
     height: 80vh;
     margin: auto;
 }
@@ -34,7 +34,9 @@
 }
 
 .inventory-table {
-    background-color: #C5C5C5;
+    /* background-color: #C5C5C5; */
+    background-color: black;
+    color: white;
     text-transform: lowercase;
     border-collapse: collapse;
     width: 100%;
@@ -46,10 +48,13 @@
     height: 8vh;
     padding-left: 10px;
     text-align: left;
-    background-color: black;
+    /* background-color: rgb(170, 170, 170); */
+    background-color: blue;
     color: white;
     position: sticky;
     top: 0;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .inventory-table th button {
@@ -75,7 +80,8 @@
 }
 
 .inventory-table tr:hover {
-    background-color: rgb(158, 158, 158);;
+    background-color: rgb(158, 158, 158);
+    background-color: #2f67ff;
     color: white;
 }
 
@@ -125,8 +131,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgb(158, 158, 158);
-    border-radius: 1ex;
+    /* background: rgb(230, 229, 229); */
+    background-color: rgb(122, 122, 122);
 }
 
 .btn-newBookForm {
