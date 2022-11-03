@@ -1,0 +1,49 @@
+/* container */
+.signUp-card-container {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    background: linear-gradient(to right, #33373E, #F1F3F7 );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-area: appbody;
+}
+
+.signUp-card-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.signUp-card-header h1 {
+    
+    margin-bottom: 20px; 
+}
+
+/* card */
+.signUp-card {
+    width: 450px;
+    background: rgba(255, 255, 255, .5);
+    padding: 4rem;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signUp-card a {
+    text-decoration: none;
+    color: #0400ff;
+}
+.signUp-card a:hover {
+    text-decoration: underline;
+}
+
+.signUp-card-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+

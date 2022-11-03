@@ -4,6 +4,7 @@ import { Customers } from "./page/Customers";
 import { Providers } from "./page/Providers";
 import { Sales } from "./page/Sales";
 import { Inventory } from "./page/Inventory";
+import { SignUp } from "./page/SignUp";
 import { Nav } from "./components/Nav";
 import { Logo } from "./components/Logo";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/providers" element={<Providers />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </QueryClientProvider>
