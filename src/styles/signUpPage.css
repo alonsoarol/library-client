@@ -1,5 +1,4 @@
-/* container */
-.singIn-card-container {
+.signUp-card-container {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     background: linear-gradient(to right, #33373E, #F1F3F7 );
@@ -9,8 +8,7 @@
     grid-area: appbody;
 }
 
-/* card */
-.singIn-card {
+.signUp-card {
     width: 450px;
     background: rgba(255, 255, 255, .5);
     padding: 4rem;
@@ -21,44 +19,28 @@
     justify-content: center;
 }
 
-.singIn-card-logo,
-.singIn-card-header,
-.singIn-card-footer {
+.signUp-card-header {
     text-align: center;
-}
-.singIn-card a {
-    text-decoration: none;
-    color: #0400ff;
-}
-.singIn-card a:hover {
-    text-decoration: underline;
-}
-
-/* header */
-.singIn-card-header {
     margin-bottom: 30px;
 }
-.singIn-card-header h1 {
+.signUp-card-header h1 {
     
     margin-bottom: 20px; 
 }
 
-/* form */
-.singIn-card-form {
+
+.signUp-card a {
+    text-decoration: none;
+    color: #0400ff;
+}
+.signUp-card a:hover {
+    text-decoration: underline;
+}
+
+.signUp-card-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     justify-content: center;
     align-items: center;
-}
-
-/* logo */
-.singIn-card-logo img {
-    width: 200px;
-}
-
-/* footer */
-.singIn-card-footer {
-    margin-top: 20px;
-    font-size: 13px;
 }
