@@ -3,6 +3,8 @@
 @import url('./logo.css');
 @import url('./inventoryPage.css');
 @import url('./signInPage.css');
+@import url('./signUpPage.css');
+@import url('./providerPage.css');
 @import url('./CustomButton.css');
 @import url('./CustomInput.css');
 @import url('./CustomSelect.css');

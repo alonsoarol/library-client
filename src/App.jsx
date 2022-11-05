@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { SignIn } from "./page/SignIn";
+import { SignUp } from "./page/SignUp";
 import { Customers } from "./page/Customers";
 import { Providers } from "./page/Providers";
 import { Sales } from "./page/Sales";
@@ -22,6 +23,7 @@ function App() {
           <Route path="/providers" element={<Providers />} />
           <Route path="/sales" element={<Sales />} />
           <Route path="/inventory" element={<Inventory />} />
+          <Route path="/SignUp" element={<SignUp />} />
           <Route path="/*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </QueryClientProvider>
