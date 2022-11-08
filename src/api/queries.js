@@ -14,8 +14,8 @@ export const getBooks = async ({ queryKey }) => {
   return response.data;
 };
 
-export const getBook = async (uri) => {
-  const response = await axios.get("http://localhost:4000/book");
+export const getBook = async (id) => {
+  const response = await axios.get(`http://localhost:4000/book/${id}`);
   return response.data;
 };
 
