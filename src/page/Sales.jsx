@@ -1,34 +1,82 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { useState, useRef, useEffect } from "react";
+import { useQuery, useMutation } from "react-query";
+import { getBooks } from "../api/books.queries";
+import { createSale } from "../api/sales.queries";
+import { useLoginStore } from "../context/loginStore";
+import { useSnackbar } from "notistack";
 import { PageBanner } from "../components/PageBanner";
-import { BsCart3 } from "react-icons/bs";
 import { CustomButton } from "../components/common/CustomButton";
 import { CustomInput } from "../components/common/CustomInput";
-import { SalesCustomSelect } from "../components/sales/SalesCustomSelect";
-import Fab from "@mui/material/Fab";
-import AddIcon from "@mui/icons-material/Add";
+import { SalesCustomSelect } from "../components/pagesComponents/sales/SalesCustomSelect";
+
+import { Fab, Stack } from "@mui/material";
+import { BsCart3 } from "react-icons/bs";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import SpokeIcon from "@mui/icons-material/Spoke";
-import { RiBarcodeFill } from "react-icons/ri";
+import AddIcon from "@mui/icons-material/Add";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { useState, useRef } from "react";
-import { useQuery } from "react-query";
-import { getBooks } from "../api/queries";
 
 export const Sales = () => {
+  const totalRef = useRef("");
+  const dateRef = useRef("");
+  const amountRef = useRef("");
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const userLogued = useLoginStore((state) => state.connectedUser);
+  const { data, isLoading } = useQuery(["getBooks"], getBooks);
+  const { mutate, context } = useMutation(createSale, {
+    onSuccess: () => {
+      console.log(context);
+      enqueueSnackbar("sales registered succesfully", {
+        variant: "success",
+      });
+    },
+    onError: () => {
+      enqueueSnackbar(error.response.data, { variant: "error" });
+    },
+  });
+
   const [selectProduct, setSelectProduct] = useState({});
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const codeRef = useRef();
-  const amountRef = useRef();
-  const { data, isLoading } = useQuery(["getBooks"], getBooks);
 
   const handlerSubmit = () => {
+    let arr = [];
+    products.map((item) => {
+      if (item.amount > 1) {
+        for (let i = 0; i < item.amount; i++) {
+          arr.push(item.id);
+        }
+      } else {
+        arr.push(item.id);
+      }
+    });
     const obj = {
+      employee: userLogued.id,
+      amount_items: arr.length,
+      sold_items: arr,
+      total: total,
+      date: `${new Date().getFullYear()}-${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`,
+    };
+    mutate(obj);
+    setProducts([]);
+    setTotal(0);
+    amountRef.current.value = 1;
+    amountRef.current.focus();
+  };
+
+  const addNewSale = () => {
+    const obj = {
+      id: selectProduct._id,
       code: selectProduct.code,
       title: selectProduct.title,
       amount: amountRef.current.value,
-      base_price: selectProduct.base_price,
       public_price: selectProduct.public_price,
       total: (
         parseFloat(selectProduct.public_price) *
@@ -36,113 +84,223 @@ export const Sales = () => {
       ).toFixed(2),
     };
     setProducts([...products, obj]);
-    setTotal((parseFloat(total) + parseFloat(obj.total)).toFixed(2));
+    setTotal((parseFloat(obj.total) + parseFloat(total)).toFixed());
   };
 
+  useEffect(() => {
+    if (Object.entries(selectProduct).length === 0) {
+      if (!isLoading) {
+        return setSelectProduct(data[0]);
+      }
+      return;
+    }
+    return;
+  }, [data]);
   return (
     <>
       <PageBanner title="Sales" icon={<BsCart3 />} />
-
-      <div className="appBody salesPage">
-        <div className="card-form">
-          <div className="form-container">
-            <div className="form1">
-              <CustomInput
-                placeholder="customer"
-                icon={<PersonOutlineIcon />}
-                size="ss"
-              />
-              <CustomInput
-                placeholder="date"
-                icon={<DateRangeIcon />}
-                size="ss"
-              />
-            </div>
-            <div className="form2">
-              <CustomInput
-                placeholder="code"
-                icon={<RiBarcodeFill />}
-                size="sm"
-                Ref={codeRef}
-              />
-              <SalesCustomSelect
-                icon={<AutoStoriesIcon />}
-                options={isLoading ? [{ title: "loading books.." }] : data}
-                change={setSelectProduct}
-                width="20"
-                size="m"
-              />
-              <CustomInput
-                placeholder="amount"
-                icon={<SpokeIcon />}
-                size="sm"
-                Ref={amountRef}
-              />
-              <Fab
-                size="small"
-                onClick={handlerSubmit}
-                sx={{
-                  backgroundColor: "black",
-                  color: "white",
-                  "&:hover": { backgroundColor: "#33373e" },
-                }}
+      <Stack
+        width="100%"
+        maxHeight="100vh"
+        gridArea="appbody"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          background: "linear-gradient(to right, #33373E, #F1F3F7)",
+        }}
+      >
+        <Stack
+          width={1000}
+          height={500}
+          border="2px solid "
+          borderRadius={4}
+          bgcolor="#c5c5c5"
+        >
+          <Stack
+            direction="row"
+            width="100%"
+            spacing={2}
+            flex={1}
+            justifyContent="left"
+            alignItems="center"
+            ml={3}
+          >
+            <CustomInput
+              placeholder="customer"
+              icon={<PersonOutlineIcon />}
+              size="ms"
+              disabled
+              value={userLogued.email}
+            />
+            <CustomInput
+              placeholder="date"
+              icon={<DateRangeIcon />}
+              size="ms"
+              disabled
+              value={`${new Date().getFullYear()}-${
+                new Date().getMonth() + 1
+              }-${new Date().getDate()}`}
+              Ref={dateRef}
+            />
+          </Stack>
+          <Stack
+            direction="row"
+            width="100%"
+            spacing={2}
+            flex={1}
+            justifyContent="left"
+            alignItems="center"
+            ml={3}
+          >
+            <SalesCustomSelect
+              icon={<AutoStoriesIcon />}
+              options={isLoading ? [{ title: "loading books.." }] : data}
+              width="20"
+              size="m"
+              onFocus={(e) => setSelectProduct(JSON.parse(e.target.value))}
+              onBlur={(e) => setSelectProduct(JSON.parse(e.target.value))}
+              onChange={(e) => setSelectProduct(JSON.parse(e.target.value))}
+            />
+            <CustomInput
+              placeholder="amount"
+              icon={<SpokeIcon />}
+              size="sm"
+              Ref={amountRef}
+              type="number"
+              defval={1}
+            />
+            <Fab
+              size="small"
+              sx={{
+                backgroundColor: "black",
+                color: "white",
+                "&:hover": { backgroundColor: "#33373e" },
+              }}
+              onClick={addNewSale}
+            >
+              <AddIcon />
+            </Fab>
+          </Stack>
+          <Stack direction="row" width="100%" spacing={2} flex={4}>
+            <Stack
+              flex={2}
+              justifyContent="flex-start"
+              alignItems="center"
+              spacing={2}
+            >
+              <h2>Orders</h2>
+              <Stack
+                bgcolor="black"
+                color="white"
+                width="90%"
+                height="80%"
+                borderRadius={4}
+                overflow="auto"
               >
-                <AddIcon />
-              </Fab>
-            </div>
-          </div>
-          <div className="tables-container">
-            <div className="table1">
-              <h3>Order</h3>
-              <div className="table-wrapper">
-                <table>
-                  <div className="divisorTable"></div>
+                <table
+                  css={css`
+                    border-collapse: collapse;
+                    & > thead > tr > th {
+                      height: 5vh;
+                      padding-left: 10px;
+                      text-align: left;
+                      position: sticky;
+                      top: 0;
+                      background: #1976d2;
+                    }
+                    & > tbody > tr > td {
+                      padding: 10px;
+                    }
+                  `}
+                >
                   <thead>
                     <tr>
-                      <th>Code</th>
-                      <th>Products</th>
-                      <th>Amount</th>
-                      <th>Price</th>
-                      <th>Total</th>
-                      <th>Actions</th>
+                      <th>code</th>
+                      <th>title</th>
+                      <th>amount</th>
+                      <th>u. price</th>
+                      <th>total</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {products.length !== 0 ? (
+                    {products ? (
                       products.map((item, index) => (
                         <tr key={index}>
                           <td>{item.code}</td>
                           <td>{item.title}</td>
                           <td>{item.amount} u.</td>
-                          <td>${item.public_price}</td>
-                          <td>${item.total}</td>
+                          <td>$ {item.public_price}</td>
+                          <td>$ {item.total}</td>
+                          <td>
+                            <button
+                              onClick={() => {
+                                setProducts(
+                                  products.filter((product) => {
+                                    return product !== item;
+                                  })
+                                );
+                                setTotal(
+                                  (
+                                    parseFloat(total) - parseFloat(item.total)
+                                  ).toFixed()
+                                );
+                              }}
+                            >
+                              delete
+                            </button>
+                          </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={6}>There are not any product</td>
+                        <td colSpan={5}>There is no product added</td>
                       </tr>
                     )}
                   </tbody>
                 </table>
-              </div>
-            </div>
-            <div className="table2">
-              <h3>Payment</h3>
-              <div className="payment-wrapper">
+              </Stack>
+            </Stack>
+            <Stack
+              flex={1}
+              justifyContent="flex-start"
+              alignItems="center"
+              spacing={2}
+            >
+              <h2>Payment</h2>
+              <Stack
+                border="2px solid black"
+                borderRadius={4}
+                justifyContent="center"
+                alignItems="center"
+                width="70%"
+                height="80%"
+                spacing={1}
+              >
                 <label>pay</label>
-                <CustomInput icon={<AttachMoneyIcon />} />
+                <CustomInput icon={<AttachMoneyIcon />} size="ss" />
                 <label>total</label>
-                <CustomInput icon={<AttachMoneyIcon />} val={total} />
+                <CustomInput
+                  icon={<AttachMoneyIcon />}
+                  size="ss"
+                  disabled
+                  value={total}
+                  Ref={totalRef}
+                />
                 <label>balance</label>
-
                 <CustomInput icon={<AttachMoneyIcon />} />
-                <CustomButton title="Submit" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                <Stack pt={1}>
+                  <CustomButton
+                    title="Submit"
+                    size="ss"
+                    onClick={handlerSubmit}
+                  />
+                </Stack>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Stack>
     </>
   );
 };

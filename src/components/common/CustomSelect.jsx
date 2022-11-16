@@ -3,9 +3,19 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 import { TiArrowUnsorted } from "react-icons/ti";
 
-export const CustomSelect = ({ name, options, icon, change, width, size }) => {
+export const CustomSelect = ({
+  name,
+  options,
+  icon,
+  change,
+  width,
+  size,
+  Ref,
+  defVal,
+  basic,
+  ...others
+}) => {
   const [isDroped, setIsDroped] = useState(false);
-
   return (
     <div
       css={css`
@@ -27,11 +37,18 @@ export const CustomSelect = ({ name, options, icon, change, width, size }) => {
         {icon}
       </div>
       <select
+        {...others}
+        defaultValue={defVal}
+        ref={Ref}
         name={name}
         onClick={() => setIsDroped(!isDroped)}
-        onChange={({ target }) => {
-          change(target.value);
-        }}
+        // onChange={
+        //   change
+        //     ? ({ target }) => {
+        //         change(target.value);
+        //       }
+        //     : null
+        // }
         css={css`
           border: none;
           outline: none;
@@ -51,10 +68,25 @@ export const CustomSelect = ({ name, options, icon, change, width, size }) => {
           }
         `}
       >
-        {options &&
+        {name === "provider" &&
+          options &&
+          options.map((prov) => (
+            <option value={prov.name} key={prov._id}>
+              {prov.code} - {prov.name}
+            </option>
+          ))}
+        {name === "books" &&
+          options &&
           options.map((opt) => (
-            <option value={opt._id} key={opt.code}>
+            <option value={opt._id} key={opt._id}>
               {opt.code} - {opt.title}
+            </option>
+          ))}
+        {name === "basic" &&
+          options &&
+          options.map((opt, index) => (
+            <option value={opt.value} key={index}>
+              {opt.title}
             </option>
           ))}
       </select>

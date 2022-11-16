@@ -26,7 +26,7 @@ export const DropMenu = ({ btnIcon, menuItems }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        sx={{ "& .MuiPaper-root": { backgroundColor: "grey" } }}
+        sx={{ "& .MuiPaper-root": { backgroundColor: "black" } }}
       >
         {menuItems.map((item, index) => (
           <MenuItem
@@ -36,8 +36,8 @@ export const DropMenu = ({ btnIcon, menuItems }) => {
             }}
             key={index + item}
           >
-            <ListItemIcon sx={{ color: "black" }}>{item.icon}</ListItemIcon>
-            <ListItemText sx={{ color: "black" }}>{item.title}</ListItemText>
+            <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
+            <ListItemText sx={{ color: "white" }}>{item.title}</ListItemText>
           </MenuItem>
         ))}
       </Menu>

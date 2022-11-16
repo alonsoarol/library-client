@@ -46,3 +46,8 @@
     height: 40px;
     background-color: #cacbcc;
 }
+
+.profile-img{
+    border-radius: 50px;
+    outline: 1px solid white;
+}

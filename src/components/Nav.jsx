@@ -1,32 +1,37 @@
 import { Link } from "react-router-dom";
-import { BsBook } from "react-icons/bs";
-import { BsCart3 } from "react-icons/bs";
-import { BsTruck } from "react-icons/bs";
-import { RiCustomerService2Line } from "react-icons/ri";
-import { FiLogIn } from "react-icons/fi";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 
 export const Nav = () => {
   return (
     <div className="nav">
       <ul>
         <li>
-          <FiLogIn className="nav-icon" />
+          <LoginOutlinedIcon className="nav-icon" />
           <Link to="/">Sign In</Link>
         </li>
         <li>
-          <RiCustomerService2Line className="nav-icon" />
-          <Link to="/customers">Customers</Link>
+          <HomeOutlinedIcon className="nav-icon" />
+          <Link to="/home">Home</Link>
         </li>
         <li>
-          <BsTruck className="nav-icon" />
+          <SupportAgentOutlinedIcon className="nav-icon" />
+          <Link to="/customers">Employees</Link>
+        </li>
+        <li>
+          <LocalShippingOutlinedIcon className="nav-icon" />
           <Link to="/providers">Providers</Link>
         </li>
         <li>
-          <BsCart3 className="nav-icon" />
+          <ShoppingCartOutlinedIcon className="nav-icon" />
           <Link to="/sales">Sales</Link>
         </li>
         <li>
-          <BsBook className="nav-icon" />
+          <AutoStoriesIcon className="nav-icon" />
           <Link to="/inventory">Inventory</Link>
         </li>
       </ul>

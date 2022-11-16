@@ -4,7 +4,6 @@ export const Check = ({ title, labelFor, checked, func }) => {
   return (
     <div>
       <label htmlFor={labelFor}>{title}</label>
-      {/* <input type="checkbox" name={labelFor} checked={checked} onClick={func} /> */}
       <Checkbox
         size="small"
         sx={{

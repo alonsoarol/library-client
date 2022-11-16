@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const getBooks = async ({ queryKey }) => {
-  console.log(queryKey);
   if (queryKey[1]) {
     const response = await axios.get(
       `http://localhost:4000/books/${queryKey[1]}/${
@@ -24,5 +23,5 @@ export const createBook = async (newBook) => {
 };
 
 export const deleteBook = async (id) => {
-  await axios.delete(`http://localhost:4000/libros/${id}`);
+  await axios.delete(`http://localhost:4000/book/${id}`);
 };

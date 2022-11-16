@@ -12,14 +12,29 @@
 
 .nav>ul>li {
     width: 100%;
-    padding: 15%;
+    /* padding: 15%; */
+    padding-left: 5%;
+    padding-top: 15%;
+    padding-bottom: 15%;
     display: flex;
     gap: 15px;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 .nav>ul>li:hover {
-    background-color: #4a4d53;
+    /* background-color: #4a4d53; */
+    background-color: white;
+    color: #1976D2;
+    cursor: pointer;
+}
+
+.nav>ul>li:hover a{
+    color: #1976D2;
+    cursor: pointer;
+}
+.nav>ul>li:hover svg {
+    color: #1976D2;
     cursor: pointer;
 }
 
