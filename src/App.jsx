@@ -1,4 +1,6 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { SignIn } from "./page/SignIn";
 import { SignUp } from "./page/SignUp";
 import { Customers } from "./page/Customers";
@@ -8,25 +10,46 @@ import { Inventory } from "./page/Inventory";
 import { Nav } from "./components/Nav";
 import { Logo } from "./components/Logo";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { SnackbarProvider } from "notistack";
+import { Home } from "./page/Home";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <div className="App">
-      <QueryClientProvider client={queryClient}>
-        <Logo />
-        <Nav />
-        <Routes>
-          <Route path="/" index element={<SignIn />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/providers" element={<Providers />} />
-          <Route path="/sales" element={<Sales />} />
-          <Route path="/inventory" element={<Inventory />} />
-          <Route path="/SignUp" element={<SignUp />} />
-          <Route path="/*" element={<h1>404 Not Found</h1>} />
-        </Routes>
-      </QueryClientProvider>
+      <SnackbarProvider maxSnack={3}>
+        <QueryClientProvider client={queryClient}>
+          <Logo />
+          <Nav />
+          <Routes>
+            <Route path="/" index element={<SignIn />} />
+            <Route path="/home" index element={<Home />} />
+            <Route
+              path="/customers"
+              element={
+                <ProtectedRoute>
+                  <Customers />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/providers" element={<Providers />} />
+            <Route
+              path="/sales"
+              element={
+                <ProtectedRoute>
+                  <Sales />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/inventory" element={<Inventory />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/*" element={<h1>404 Not Found</h1>} />
+          </Routes>
+          {/* <ReactQueryDevtools /> */}
+        </QueryClientProvider>
+      </SnackbarProvider>
     </div>
   );
 }

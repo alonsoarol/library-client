@@ -2,22 +2,16 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { TiArrowUnsorted } from "react-icons/ti";
-import { getBook } from "../../api/queries";
 
 export const SalesCustomSelect = ({
   name,
   options,
   icon,
-  change,
   width,
   size,
+  ...others
 }) => {
   const [isDroped, setIsDroped] = useState(false);
-
-  const handlerChange = async (id) => {
-    const bookSelected = await getBook(id);
-    await change(bookSelected);
-  };
 
   return (
     <div
@@ -40,11 +34,9 @@ export const SalesCustomSelect = ({
         {icon}
       </div>
       <select
+        {...others}
         name={name}
         onClick={() => setIsDroped(!isDroped)}
-        onChange={({ target }) => {
-          handlerChange(target.value);
-        }}
         css={css`
           border: none;
           outline: none;
@@ -66,7 +58,7 @@ export const SalesCustomSelect = ({
       >
         {options &&
           options.map((opt) => (
-            <option value={opt._id} key={opt.code}>
+            <option value={JSON.stringify(opt)} key={opt.code}>
               {opt.code} - {opt.title}
             </option>
           ))}

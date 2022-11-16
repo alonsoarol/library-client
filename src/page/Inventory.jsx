@@ -1,9 +1,9 @@
-/** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+// /** @jsxImportSource @emotion/react */
+// import { css } from "@emotion/react";
 
 import { PageBanner } from "../components/PageBanner";
-import { NewBookForm } from "../components/inventory/NewBookForm";
-import { InventoryTable } from "../components/inventory/InventoryTable";
+import { NewBookForm } from "../components/pagesComponents/inventory/NewBookForm";
+import { InventoryTable } from "../components/pagesComponents/inventory/InventoryTable";
 import { BsBook } from "react-icons/bs";
 import { useState } from "react";
 import { Modal } from "../components/common/Modal";
@@ -21,7 +21,7 @@ export const Inventory = () => {
         icon2={<BsQuestionCircle />}
       />
 
-      <div className="appBody inventory-page">
+      <div className="inventory-page">
         <div>
           <Fab
             size="small"
@@ -40,6 +40,7 @@ export const Inventory = () => {
             shortCut={113}
             state={stateModal}
             setState={setStateModal}
+            bckg="#c5c5c5"
           ></Modal>
         </div>
         <InventoryTable />

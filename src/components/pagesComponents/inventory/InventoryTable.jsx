@@ -1,27 +1,36 @@
-import { useQuery } from "react-query";
-import { getBooks } from "../../api/queries";
-import { TableChecks } from "./TableChecks";
-import { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeIcon from "@mui/icons-material/Mode";
 import HistoryIcon from "@mui/icons-material/History";
-
-import { InventoryTh } from "../inventory/InventoryTh";
-
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
-import { DropMenu } from "../common/DropMenu";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { getBooks, deleteBook } from "../../../api/books.queries";
+import { TableChecks } from "./TableChecks";
+import { useEffect, useState } from "react";
+import { InventoryTh } from "../inventory/InventoryTh";
+import { DropMenu } from "../../common/DropMenu";
+import { PBDialog } from "../pageBanner/PBDialog";
+import { useSnackbar } from "notistack";
 
 export const InventoryTable = () => {
+  const queryClient = useQueryClient();
+  const { enqueueSnackbar } = useSnackbar();
   const [uri, setUri] = useState(null);
   const [asc, setAsc] = useState(true);
-
-  const { data, error, isLoading } = useQuery(["getBooks", uri, asc], getBooks);
-  useEffect(() => {
-    isLoading ? setOpen(true) : setOpen(false);
-  }, [isLoading]);
-  const [open, setOpen] = useState(false);
+  const [targetBook, setTargetBook] = useState("");
+  const { data, isLoading } = useQuery(["getBooks", uri, asc], getBooks);
+  const [openBackDrop, setOpenBackDrop] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const { mutate } = useMutation(deleteBook, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("getBooks");
+      enqueueSnackbar("Book deleted succesfully", {
+        variant: "success",
+      });
+    },
+    onError: (error) => {},
+  });
 
   const [checks, setChecks] = useState({
     author: true,
@@ -32,19 +41,44 @@ export const InventoryTable = () => {
     stock: true,
   });
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose = (component) => {
+    if (component === "dialog") {
+      return setOpenDialog(false);
+    }
+    if (component === "backdrop") {
+      return setOpenBackDrop(false);
+    }
   };
+
+  const handlerDeleteBook = (id) => {
+    setOpenDialog(true);
+    setTargetBook(id);
+  };
+
+  const confirmDeleteBook = () => {
+    mutate(targetBook);
+    handleClose("dialog");
+  };
+
+  useEffect(() => {
+    isLoading ? setOpenBackDrop(true) : setOpenBackDrop(false);
+  }, [isLoading]);
 
   return (
     <div className="inventory-outer-wrapper">
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={handleClose}
+        open={openBackDrop}
+        onClick={() => handleClose("backdrop")}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <PBDialog
+        title="Are you sure to delete the book?"
+        open={openDialog}
+        func={() => confirmDeleteBook()}
+        close={() => handleClose("dialog")}
+      />
       <div className="inventory-table-wrapper">
         <table className="inventory-table">
           <thead>
@@ -142,7 +176,11 @@ export const InventoryTable = () => {
               : data.map((book, index) => (
                   <tr key={index} onDoubleClick={() => console.log()}>
                     <td>{book.code}</td>
-                    <td>{book.title}</td>
+                    <td>
+                      {book.title.length > 16
+                        ? book.title.slice(0, 14) + "..."
+                        : book.title}
+                    </td>
                     {checks.author && <td>{book.author}</td>}
                     {checks.category && <td>{book.category}</td>}
                     {checks.provider && <td>{book.provider}</td>}
@@ -152,13 +190,13 @@ export const InventoryTable = () => {
                     <td>
                       {
                         <DropMenu
-                          btnIcon={<MoreVertIcon sx={{ color: "white" }} />}
+                          btnIcon={<MoreVertIcon sx={{ color: "black" }} />}
                           menuItems={[
                             {
                               title: "Delete",
                               icon: <DeleteIcon />,
                               action: () => {
-                                console.log("item deleted");
+                                handlerDeleteBook(book._id);
                               },
                             },
                             {
@@ -176,7 +214,7 @@ export const InventoryTable = () => {
                               },
                             },
                           ]}
-                        ></DropMenu>
+                        />
                       }
                     </td>
                   </tr>
