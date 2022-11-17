@@ -11,11 +11,11 @@ export const CustomersListRow = ({
   index,
   selectedIndex,
   setSelectedIndex,
-  setTargetUser,
+  setTargedUser,
 }) => {
   const handleListItemClick = () => {
     setSelectedIndex(index);
-    setTargetUser(user);
+    setTargedUser(user);
   };
 
   return (

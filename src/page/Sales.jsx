@@ -10,6 +10,7 @@ import { PageBanner } from "../components/PageBanner";
 import { CustomButton } from "../components/common/CustomButton";
 import { CustomInput } from "../components/common/CustomInput";
 import { SalesCustomSelect } from "../components/pagesComponents/sales/SalesCustomSelect";
+import IconButton from "@mui/material/IconButton";
 
 import { Fab, Stack } from "@mui/material";
 import { BsCart3 } from "react-icons/bs";
@@ -19,6 +20,7 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import SpokeIcon from "@mui/icons-material/Spoke";
 import AddIcon from "@mui/icons-material/Add";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const Sales = () => {
   const totalRef = useRef("");
@@ -30,7 +32,6 @@ export const Sales = () => {
   const { data, isLoading } = useQuery(["getBooks"], getBooks);
   const { mutate, context } = useMutation(createSale, {
     onSuccess: () => {
-      console.log(context);
       enqueueSnackbar("sales registered succesfully", {
         variant: "success",
       });
@@ -45,6 +46,11 @@ export const Sales = () => {
   const [total, setTotal] = useState(0);
 
   const handlerSubmit = () => {
+    if (!userLogued.permissions.write) {
+      return enqueueSnackbar("you have not permissions", {
+        variant: "warning",
+      });
+    }
     let arr = [];
     products.map((item) => {
       if (item.amount > 1) {
@@ -56,7 +62,7 @@ export const Sales = () => {
       }
     });
     const obj = {
-      employee: userLogued.id,
+      employee: userLogued._id,
       amount_items: arr.length,
       sold_items: arr,
       total: total,
@@ -233,7 +239,9 @@ export const Sales = () => {
                           <td>$ {item.public_price}</td>
                           <td>$ {item.total}</td>
                           <td>
-                            <button
+                            <IconButton
+                              aria-label="delete"
+                              sx={{ color: "white" }}
                               onClick={() => {
                                 setProducts(
                                   products.filter((product) => {
@@ -247,8 +255,8 @@ export const Sales = () => {
                                 );
                               }}
                             >
-                              delete
-                            </button>
+                              <DeleteIcon />
+                            </IconButton>
                           </td>
                         </tr>
                       ))

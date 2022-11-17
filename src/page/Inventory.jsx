@@ -10,9 +10,13 @@ import { Modal } from "../components/common/Modal";
 import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { BsQuestionCircle } from "react-icons/bs";
-
+import { useLoginStore } from "../context/loginStore";
+import { useSnackbar } from "notistack";
 export const Inventory = () => {
   const [stateModal, setStateModal] = useState(false);
+  const userLogued = useLoginStore((state) => state.connectedUser);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+
   return (
     <>
       <PageBanner
@@ -25,7 +29,14 @@ export const Inventory = () => {
         <div>
           <Fab
             size="small"
-            onClick={() => setStateModal(!stateModal)}
+            onClick={() => {
+              if (!userLogued.permissions.write) {
+                return enqueueSnackbar("you have not permissions", {
+                  variant: "warning",
+                });
+              }
+              setStateModal(!stateModal);
+            }}
             sx={{
               margin: "20px",
               backgroundColor: "black",
@@ -41,6 +52,7 @@ export const Inventory = () => {
             state={stateModal}
             setState={setStateModal}
             bckg="#c5c5c5"
+            title="Add new book"
           ></Modal>
         </div>
         <InventoryTable />

@@ -16,7 +16,7 @@ export const PBDialog = ({ title, textContent, open, close, func }) => {
           backgroundColor: "black",
           color: "white",
           width: "30vw",
-          height: "20vh",
+          height: "30vh",
         },
       }}
     >

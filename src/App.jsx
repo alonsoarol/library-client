@@ -24,7 +24,15 @@ function App() {
           <Nav />
           <Routes>
             <Route path="/" index element={<SignIn />} />
-            <Route path="/home" index element={<Home />} />
+            <Route
+              path="/home"
+              index
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/customers"
               element={
@@ -33,7 +41,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/providers" element={<Providers />} />
+            <Route
+              path="/providers"
+              element={
+                <ProtectedRoute>
+                  <Providers />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/sales"
               element={
@@ -43,7 +58,14 @@ function App() {
               }
             />
 
-            <Route path="/inventory" element={<Inventory />} />
+            <Route
+              path="/inventory"
+              element={
+                <ProtectedRoute>
+                  <Inventory />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/*" element={<h1>404 Not Found</h1>} />
           </Routes>

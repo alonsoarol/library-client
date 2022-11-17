@@ -3,7 +3,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export function Modal({ children, shortCut, state, setState, bckg }) {
+export function Modal({ children, shortCut, state, setState, bckg, title }) {
   document.addEventListener("keydown", (e) => {
     if (e.keyCode === shortCut) {
       e.preventDefault();
@@ -43,7 +43,7 @@ export function Modal({ children, shortCut, state, setState, bckg }) {
           },
         }}
       >
-        <DialogTitle>Add new book</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>{children}</DialogContent>
         <DialogActions></DialogActions>
       </Dialog>

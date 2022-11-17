@@ -1,9 +1,8 @@
 import { useLoginStore } from "../context/loginStore";
 import { Navigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { useEffect } from "react";
 
-export const ProtectedRoute = ({ user, children }) => {
+export const ProtectedRoute = ({ children }) => {
   const { enqueueSnackbar } = useSnackbar();
   const connectedUser = useLoginStore((state) => state.connectedUser);
 

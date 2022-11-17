@@ -15,10 +15,14 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export const SignIn = () => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const navigate = useNavigate();
   const login = useLoginStore((state) => state.login);
+  const connectedUser = useLoginStore((state) => state.connectedUser);
 
   const {
     mutate,
@@ -40,6 +44,11 @@ export const SignIn = () => {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
+    if (connectedUser) {
+      return enqueueSnackbar("you are already connected", {
+        variant: "warning",
+      });
+    }
     const obj = {
       email: emailRef.current.value,
       password: passwordRef.current.value,

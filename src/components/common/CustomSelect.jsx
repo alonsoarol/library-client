@@ -71,7 +71,7 @@ export const CustomSelect = ({
         {name === "provider" &&
           options &&
           options.map((prov) => (
-            <option value={prov.name} key={prov._id}>
+            <option value={prov._id} key={prov._id}>
               {prov.code} - {prov.name}
             </option>
           ))}

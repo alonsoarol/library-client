@@ -20,6 +20,13 @@ export const getAccounts = async () => {
   return response.data;
 };
 
+export const deleteAccount = async (id) => {
+  const response = await axios.delete(`http://localhost:4000/account/${id}`);
+  return response.data;
+};
+
 export const putPermission = async (id, data) => {
+  console.log(data);
+  console.log(id);
   await axios.put(`http://localhost:4000/account/permissions/${id}`, data);
 };

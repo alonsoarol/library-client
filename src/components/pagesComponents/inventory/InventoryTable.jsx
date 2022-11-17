@@ -12,16 +12,23 @@ import { InventoryTh } from "../inventory/InventoryTh";
 import { DropMenu } from "../../common/DropMenu";
 import { PBDialog } from "../pageBanner/PBDialog";
 import { useSnackbar } from "notistack";
+import { EditBookForm } from "../inventory/EditBookForm";
+import { Modal } from "../../common/Modal";
+import { useLoginStore } from "../../../context/loginStore";
 
 export const InventoryTable = () => {
-  const queryClient = useQueryClient();
-  const { enqueueSnackbar } = useSnackbar();
   const [uri, setUri] = useState(null);
   const [asc, setAsc] = useState(true);
   const [targetBook, setTargetBook] = useState("");
-  const { data, isLoading } = useQuery(["getBooks", uri, asc], getBooks);
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [stateModal, setStateModal] = useState(false);
+  const [targedBook, setTargedBook] = useState("");
+
+  const userLogued = useLoginStore((state) => state.connectedUser);
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useQuery(["getBooks", uri, asc], getBooks);
   const { mutate } = useMutation(deleteBook, {
     onSuccess: () => {
       queryClient.invalidateQueries("getBooks");
@@ -29,7 +36,11 @@ export const InventoryTable = () => {
         variant: "success",
       });
     },
-    onError: (error) => {},
+    onError: () => {
+      enqueueSnackbar("Something was wrong", {
+        variant: "error",
+      });
+    },
   });
 
   const [checks, setChecks] = useState({
@@ -41,23 +52,10 @@ export const InventoryTable = () => {
     stock: true,
   });
 
-  const handleClose = (component) => {
-    if (component === "dialog") {
-      return setOpenDialog(false);
-    }
-    if (component === "backdrop") {
-      return setOpenBackDrop(false);
-    }
-  };
-
-  const handlerDeleteBook = (id) => {
-    setOpenDialog(true);
-    setTargetBook(id);
-  };
-
   const confirmDeleteBook = () => {
     mutate(targetBook);
-    handleClose("dialog");
+    setOpenDialog(false);
+    console.log("sdfsdfsdf");
   };
 
   useEffect(() => {
@@ -69,16 +67,25 @@ export const InventoryTable = () => {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openBackDrop}
-        onClick={() => handleClose("backdrop")}
+        onClick={() => setOpenBackDrop(false)}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
       <PBDialog
         title="Are you sure to delete the book?"
         open={openDialog}
-        func={() => confirmDeleteBook()}
-        close={() => handleClose("dialog")}
+        func={() => confirmDeleteBook(targetBook)}
+        close={() => setOpenDialog(false)}
       />
+      <Modal
+        children={<EditBookForm close={setStateModal} item={targedBook} />}
+        shortCut={114}
+        state={stateModal}
+        setState={setStateModal}
+        bckg="#c5c5c5"
+        title="Edit Book"
+      ></Modal>
+
       <div className="inventory-table-wrapper">
         <table className="inventory-table">
           <thead>
@@ -174,7 +181,7 @@ export const InventoryTable = () => {
             {isLoading
               ? null
               : data.map((book, index) => (
-                  <tr key={index} onDoubleClick={() => console.log()}>
+                  <tr key={book._id}>
                     <td>{book.code}</td>
                     <td>
                       {book.title.length > 16
@@ -183,38 +190,51 @@ export const InventoryTable = () => {
                     </td>
                     {checks.author && <td>{book.author}</td>}
                     {checks.category && <td>{book.category}</td>}
-                    {checks.provider && <td>{book.provider}</td>}
+                    {checks.provider && <td>{book.provider.name}</td>}
                     {checks.base_price && <td>${book.base_price}</td>}
                     {checks.public_price && <td>${book.public_price}</td>}
                     {checks.stock && <td>{book.stock}</td>}
                     <td>
                       {
-                        <DropMenu
-                          btnIcon={<MoreVertIcon sx={{ color: "black" }} />}
-                          menuItems={[
-                            {
-                              title: "Delete",
-                              icon: <DeleteIcon />,
-                              action: () => {
-                                handlerDeleteBook(book._id);
+                        <>
+                          <DropMenu
+                            btnIcon={<MoreVertIcon sx={{ color: "black" }} />}
+                            menuItems={[
+                              {
+                                title: "Delete",
+                                icon: <DeleteIcon />,
+                                action: () => {
+                                  if (!userLogued.permissions.write) {
+                                    return enqueueSnackbar(
+                                      "you have not permissions",
+                                      {
+                                        variant: "warning",
+                                      }
+                                    );
+                                  }
+                                  setTargetBook(book._id);
+                                  setOpenDialog(true);
+                                },
                               },
-                            },
-                            {
-                              title: "Edit",
-                              icon: <ModeIcon />,
-                              action: () => {
-                                console.log("item edited");
+                              {
+                                title: "Edit",
+                                icon: <ModeIcon />,
+                                action: () => {
+                                  if (!userLogued.permissions.write) {
+                                    return enqueueSnackbar(
+                                      "you have not permissions",
+                                      {
+                                        variant: "warning",
+                                      }
+                                    );
+                                  }
+                                  setTargedBook(book);
+                                  setStateModal(true);
+                                },
                               },
-                            },
-                            {
-                              title: "History",
-                              icon: <HistoryIcon />,
-                              action: () => {
-                                console.log("item history");
-                              },
-                            },
-                          ]}
-                        />
+                            ]}
+                          />
+                        </>
                       }
                     </td>
                   </tr>
