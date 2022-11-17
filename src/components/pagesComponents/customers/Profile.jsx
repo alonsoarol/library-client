@@ -5,16 +5,16 @@ import { useState } from "react";
 import { putPermission } from "../../../api/accounts.queries";
 import axios from "axios";
 
-export const Profile = ({ targetUser }) => {
+export const Profile = ({ targedUser }) => {
   useEffect(() => {
-    Object.entries(targetUser).length
+    Object.entries(targedUser).length
       ? setChecks({
-          read: targetUser.permissions.read,
-          write: targetUser.permissions.write,
-          admin: targetUser.permissions.admin,
+          read: targedUser.permissions.read,
+          write: targedUser.permissions.write,
+          admin: targedUser.permissions.admin,
         })
       : null;
-  }, [targetUser]);
+  }, [targedUser]);
 
   const [checks, setChecks] = useState({
     read: false,
@@ -27,10 +27,10 @@ export const Profile = ({ targetUser }) => {
   };
 
   useEffect(() => {
-    if (Object.entries(targetUser).length) {
+    if (Object.entries(targedUser).length) {
       const fc = async () => {
         await axios.put(
-          `http://localhost:4000/account/permissions/${targetUser._id}`,
+          `http://localhost:4000/account/permissions/${targedUser._id}`,
           { permissions: checks }
         );
       };
@@ -45,93 +45,60 @@ export const Profile = ({ targetUser }) => {
       padding={3}
       width="100%"
       height="100%"
-      direction="row"
+      direction="column"
     >
-      <Stack flex={1}>
-        <img
-          src={targetUser.picture}
-          style={{ width: 100, height: 100, marginBottom: 30 }}
-        />
-        <Stack direction="row" spacing={1}>
-          <Typography variant="overline" fontWeight={700}>
-            id:
-          </Typography>
-          <Typography variant="overline">{targetUser._id}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="overline" fontWeight={700}>
-            name:
-          </Typography>
-          <Typography variant="overline">{targetUser.name}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="overline" fontWeight={700}>
-            surname:
-          </Typography>
-          <Typography variant="overline">{targetUser.surname}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="overline" fontWeight={700}>
-            email:
-          </Typography>
-          <Typography variant="overline">{targetUser.email}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="overline" fontWeight={700}>
-            gender:
-          </Typography>
-          <Typography variant="overline">{targetUser.gender}</Typography>
-        </Stack>
-      </Stack>
-      <Stack flex={1}>
-        <Typography variant="overline">Permissions</Typography>
-        <Stack direction="row" alignItems="center">
-          <Checkbox
-            name="read"
-            size="small"
-            sx={{
-              color: "white",
-              "&.Mui-checked": {
-                color: "white",
-              },
-            }}
-            onClick={(e) => changePermission(e)}
-            checked={checks && checks.read ? true : false}
+      <Typography variant="h4" textAlign="center">
+        {`${targedUser.name} ${targedUser.surname}`}
+      </Typography>
+      <Stack
+        flex={1}
+        // border="1px solid"
+        justifyContent="start"
+        alignItems="center"
+        mt={3}
+      >
+        <Stack
+          direction="row"
+          spacing={5}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <img
+            src={targedUser.picture}
+            style={{ width: 100, height: 100, marginBottom: 30 }}
           />
-          <Typography variant="overline">read</Typography>
-        </Stack>
-        <Stack direction="row" alignItems="center">
-          <Checkbox
-            name="write"
-            size="small"
-            sx={{
-              color: "white",
-              "&.Mui-checked": {
-                color: "white",
-              },
-            }}
-            onClick={(e) => changePermission(e)}
-            checked={checks && checks.write ? true : false}
-          />
-          <Typography variant="overline">write</Typography>
-        </Stack>
-        <Stack direction="row" alignItems="center">
-          <Checkbox
-            name="admin"
-            size="small"
-            sx={{
-              color: "white",
-              "&.Mui-checked": {
-                color: "white",
-              },
-            }}
-            onClick={(e) => changePermission(e)}
-            checked={checks && checks.admin ? true : false}
-          />
-          <Typography variant="overline">admin</Typography>
-        </Stack>
-        <Stack>
-          <Button>delete account</Button>
+          <Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="overline" fontWeight={700}>
+                id:
+              </Typography>
+              <Typography variant="overline">{targedUser._id}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="overline" fontWeight={700}>
+                name:
+              </Typography>
+              <Typography variant="overline">{targedUser.name}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="overline" fontWeight={700}>
+                surname:
+              </Typography>
+              <Typography variant="overline">{targedUser.surname}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="overline" fontWeight={700}>
+                email:
+              </Typography>
+              <Typography variant="overline">{targedUser.email}</Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="overline" fontWeight={700}>
+                gender:
+              </Typography>
+              <Typography variant="overline">{targedUser.gender}</Typography>
+            </Stack>
+          </Stack>
         </Stack>
       </Stack>
     </Stack>

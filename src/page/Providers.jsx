@@ -11,24 +11,45 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ModeIcon from "@mui/icons-material/Mode";
 import HistoryIcon from "@mui/icons-material/History";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createProvider, getProviders } from "../api/providers.queries";
+import { useLoginStore } from "../context/loginStore";
+import {
+  createProvider,
+  getProviders,
+  deleteProviders,
+} from "../api/providers.queries";
 import { RiBarcodeFill } from "react-icons/ri";
 import { useSnackbar } from "notistack";
+import { IconButton } from "@mui/material";
+import { PBDialog } from "../components/pagesComponents/pageBanner/PBDialog";
+import { useState } from "react";
 
 export const Providers = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [targedProvider, setTargedProvider] = useState("");
   const codeRef = useRef("");
   const nameRef = useRef("");
   const emailRef = useRef("");
   const phoneRef = useRef("");
   const locationRef = useRef("");
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+  const connectedUser = useLoginStore((state) => state.connectedUser);
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery(["getProviders"], getProviders);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { mutate: deleteProvidersMutation } = useMutation(deleteProviders, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("getProviders");
+      enqueueSnackbar("Provider deleted succesfully", {
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      enqueueSnackbar("Something was wrong", {
+        variant: "error",
+      });
+    },
+  });
   const {
     mutate,
-    error,
     isLoading: isMutating,
     reset,
     isError,
@@ -41,28 +62,44 @@ export const Providers = () => {
       reset();
     },
     onError: (error) => {
-      enqueueSnackbar(error.response.data, { variant: "error" });
+      enqueueSnackbar("something was wrong", { variant: "error" });
       reset();
     },
   });
+  const { data, isLoading } = useQuery(["getProviders"], getProviders);
 
   const handlerSubmit = (e) => {
     e.preventDefault();
+    if (!connectedUser.permissions.write) {
+      return enqueueSnackbar("you have not permissions", {
+        variant: "warning",
+      });
+    }
     const obj = {
       code: codeRef.current.value,
       name: nameRef.current.value,
       location: locationRef.current.value,
       email: emailRef.current.value,
-      phone: phoneRef.current.value,
+      phone_number: phoneRef.current.value,
     };
     mutate(obj);
     e.target.reset();
+  };
+  const confirmDeleteProv = () => {
+    targedProvider && deleteProvidersMutation(targedProvider);
+    setOpenDialog(false);
   };
 
   return (
     <>
       <PageBanner title="Providers" icon={<BsTruck />} />
 
+      <PBDialog
+        title="Are you sure to delete the provider?"
+        open={openDialog}
+        func={() => confirmDeleteProv(targedProvider)}
+        close={() => setOpenDialog(false)}
+      />
       <div className="provider-container">
         <div className="Addprovider-card-container">
           <div className="Addprovider-card">
@@ -152,8 +189,26 @@ export const Providers = () => {
                       <td>{item.code}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
-                      <td>{item.phone}</td>
+                      <td>{item.phone_number}</td>
                       <td>{item.location}</td>
+                      <td>
+                        <IconButton
+                          aria-label="delete"
+                          color="primary"
+                          onClick={() => {
+                            if (!connectedUser.permissions.write) {
+                              return enqueueSnackbar(
+                                "you have not permissions",
+                                { variant: "warning" }
+                              );
+                            }
+                            setOpenDialog(true);
+                            setTargedProvider(item._id);
+                          }}
+                        >
+                          <DeleteIcon color="white" />
+                        </IconButton>
+                      </td>
                     </tr>
                   ))
                 )}

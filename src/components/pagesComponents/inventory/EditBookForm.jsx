@@ -1,84 +1,78 @@
 import { useEffect, useState, useRef } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { updateBook } from "../../../api/books.queries";
+import { useSnackbar } from "notistack";
+
 import { CustomInput } from "../../common/CustomInput";
-import { CustomSelect } from "../../common/CustomSelect";
 import { CustomButton } from "../../common/CustomButton";
+
 import { RiBarcodeFill } from "react-icons/ri";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import { BsTruck } from "react-icons/bs";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createBook } from "../../../api/books.queries";
-import { getProviders } from "../../../api/providers.queries";
-import { useSnackbar } from "notistack";
 
-export const NewBookForm = ({ close }) => {
-  const codeRef = useRef("");
+export const EditBookForm = ({ close, item }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery(["getProviders"], getProviders);
-  const [targedProvider, setTargetProvider] = useState("");
-
-  const {
-    mutate,
-    error,
-    isLoading: isMutating,
-    reset,
-    isError,
-  } = useMutation(createBook, {
+  const { mutate } = useMutation(updateBook, {
     onSuccess: () => {
+      enqueueSnackbar("Book updated succesfully", { variant: "success" });
       queryClient.invalidateQueries("getBooks");
-      enqueueSnackbar("Book registered succesfully", {
-        variant: "success",
-      });
-      close(false);
-      reset();
     },
-    onError: (error) => {
+    onError: () => {
       enqueueSnackbar("Something was wrong", { variant: "error" });
-      reset();
-      codeRef.current.focus();
     },
   });
-  const [newBook, setNewBook] = useState({
-    code: "",
-    title: "",
-    author: "",
-    category: "",
-    provider: "",
-    base_price: "",
-    public_price: "",
-    stock: "",
-  });
-  const handlerChange = ({ target }) => {
-    setNewBook({ ...newBook, [target.name]: target.value });
-  };
+  const queryClient = useQueryClient();
+
   const handlerSubmit = (e) => {
     e.preventDefault();
+    if (
+      !basePriceRef.current.value ||
+      !publicPriceRef.current.value ||
+      !stockRef.current.value
+    ) {
+      enqueueSnackbar("llename el campo pa", { variant: "warning" });
+      basePriceRef.current.focus();
+      return;
+    }
     const obj = {
-      code: newBook.code,
-      title: newBook.title,
-      author: newBook.author,
-      category: newBook.category,
-      provider: data && !targedProvider ? data[0]._id : newBook.provider,
-      base_price: newBook.base_price,
-      public_price: newBook.public_price,
-      stock: newBook.stock,
+      id: item._id,
+      data: {
+        base_price: basePriceRef.current.value,
+        public_price: publicPriceRef.current.value,
+        stock: stockRef.current.value,
+      },
     };
     mutate(obj);
+
+    close(false);
   };
+
+  const basePriceRef = useRef("");
+  const publicPriceRef = useRef("");
+  const stockRef = useRef("");
+
+  useEffect(() => {
+    if (item) {
+      basePriceRef.current.value = item.base_price;
+      publicPriceRef.current.value = item.public_price;
+      stockRef.current.value = item.stock;
+      basePriceRef.current.focus();
+    }
+  }, [item]);
 
   return (
     <div className="form-container">
       <form onSubmit={handlerSubmit} className="inventory-form">
         <CustomInput
           icon={<RiBarcodeFill />}
-          Ref={codeRef}
+          val={item && item.code}
           placeholder="code"
           type="text"
           name="code"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          disabled
         />
         <CustomInput
           icon={<AutoStoriesIcon />}
@@ -86,7 +80,8 @@ export const NewBookForm = ({ close }) => {
           type="text"
           name="title"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          val={item && item.title}
+          disabled
         />
         <CustomInput
           icon={<PersonOutlineIcon />}
@@ -94,7 +89,8 @@ export const NewBookForm = ({ close }) => {
           type="text"
           name="author"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          val={item && item.author}
+          disabled
         />
         <CustomInput
           icon={<AutoStoriesIcon />}
@@ -102,24 +98,26 @@ export const NewBookForm = ({ close }) => {
           type="text"
           name="category"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          val={item && item.category}
+          disabled
         />
-        <CustomSelect
+        <CustomInput
           icon={<BsTruck />}
           placeholder="provider"
-          size="s"
+          type="text"
           name="provider"
-          width={20}
-          options={isLoading ? null : data}
-          onChange={(e) => handlerChange(e)}
+          size="ls"
+          val={item && item.provider.name}
+          disabled
         />
+
         <CustomInput
           icon={<AttachMoneyIcon />}
           placeholder="base price"
           type="number"
           name="base_price"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          Ref={basePriceRef}
         />
         <CustomInput
           icon={<AttachMoneyIcon />}
@@ -127,15 +125,14 @@ export const NewBookForm = ({ close }) => {
           type="number"
           name="public_price"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          Ref={publicPriceRef}
         />
         <CustomInput
-          // icon={<AttachMoneyIcon />}
           placeholder="stock"
           type="number"
           name="stock"
           size="ls"
-          onChange={(e) => handlerChange(e)}
+          Ref={stockRef}
         />
 
         <CustomButton title="Add" width="10vw" height="5vh" />

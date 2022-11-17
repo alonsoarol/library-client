@@ -60,10 +60,11 @@
     justify-content: flex-start;
     flex-direction: column;
     border-radius: 24px;
-    width: 45vw;
+    width: 50vw;
     height: 75vh;
     margin-top: 50px;
     padding-top: 40px;
+    overflow-y: auto;
 }
 
 .providers-card-header{
@@ -99,12 +100,16 @@
 }
 
 .providers-card table th {
-    padding: 10px 0px;
+    padding: 10px 30px;
 }
 
 .providers-card table td {
     padding: 10px 5px;
-    text-align: left;
+    text-align: center;
+}
+
+.xxx {
+    color: white;
 }
 
 /* .providers-card table tr:hover{

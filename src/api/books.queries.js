@@ -13,6 +13,11 @@ export const getBooks = async ({ queryKey }) => {
   return response.data;
 };
 
+export const getBooksws = async () => {
+  const response = await axios.get(`http://localhost:4000/books`);
+  return response.data;
+};
+
 export const getBook = async (id) => {
   const response = await axios.get(`http://localhost:4000/book/${id}`);
   return response.data;
@@ -24,4 +29,8 @@ export const createBook = async (newBook) => {
 
 export const deleteBook = async (id) => {
   await axios.delete(`http://localhost:4000/book/${id}`);
+};
+
+export const updateBook = async ({ id, data }) => {
+  await axios.put(`http://localhost:4000/book/${id}`, data);
 };

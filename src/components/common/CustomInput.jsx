@@ -22,7 +22,7 @@ export const CustomInput = ({
         placeholder={placeholder}
         css={inputSize(size)}
         ref={Ref}
-        val={val}
+        value={val}
         {...others}
       />
     </div>

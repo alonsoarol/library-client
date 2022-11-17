@@ -5,7 +5,7 @@ import { useQuery } from "react-query";
 import { CustomersListRow } from "../customers/CustomersListRow";
 import { getAccounts } from "../../../api/accounts.queries";
 
-export const CustomersList = ({ setTargetUser }) => {
+export const CustomersList = ({ setTargedUser }) => {
   const { data, error, isLoading } = useQuery(["getAccounts"], getAccounts);
   const [selectedIndex, setSelectedIndex] = useState(1);
 
@@ -14,10 +14,11 @@ export const CustomersList = ({ setTargetUser }) => {
       <Typography
         textAlign="center"
         variant="h4"
+        fontWeight={700}
         color="#1976D2"
         bgcolor="black"
       >
-        accounts
+        Accounts
       </Typography>
       <Stack overflow="auto" maxHeight={400}>
         <List component="nav" aria-label="main mailbox folders">
@@ -29,7 +30,7 @@ export const CustomersList = ({ setTargetUser }) => {
                 index={index}
                 selectedIndex={selectedIndex}
                 setSelectedIndex={setSelectedIndex}
-                setTargetUser={setTargetUser}
+                setTargedUser={setTargedUser}
               />
             ))}
         </List>

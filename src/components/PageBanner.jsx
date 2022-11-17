@@ -56,17 +56,6 @@ export const PageBanner = ({ title, icon, icon2 }) => {
               }
               menuItems={[
                 {
-                  title: "",
-                  icon: "",
-                },
-                {
-                  title: "Profile",
-                  icon: <PersonOutlinedIcon />,
-                  action: () => {
-                    console.log("item deleted");
-                  },
-                },
-                {
                   title: "Logout",
                   icon: <LogoutIcon />,
                   action: () => {
